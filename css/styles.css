@@ -1,4 +1,4 @@
-h5 {
+h4 {
 	text-align: center;
 	color: #fff;
 }
@@ -23,6 +23,12 @@ h5 {
 	fill: #fff;
 }
 
+#dropDownNames {
+	display: block;
+	margin: 0 auto;
+	height: 40px;
+}
+
 /* Main Column Styles */
 #main-column {
 	position: relative;
@@ -37,8 +43,9 @@ h5 {
 
 #video {
 	display: block;
+	width: 840px;
 	margin: 0 auto;
-	padding: 100px 50px;
+	padding: 100px 20px;
 	box-sizing: border-box;
 }
 
