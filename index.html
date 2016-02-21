@@ -18,6 +18,10 @@
   	</head>
 	<body>
 		<script src= "http://player.twitch.tv/js/embed/v1.js"></script> 
+		<script type="text/javascript" src="/pico/client.js"></script>
+    	<script type="text/javascript">
+        	pico.load('messages');
+    	</script>
 		<div class="fluid-container">
 			<div id="twitchNavBar">
 				<a href="/" id="logo">
@@ -26,6 +30,7 @@
 					</svg>
 	      		</a>
 	      		<h4>Channels</h4>
+	      		<h4 id="message"></h4>
 		      		<select name = "drop_down" id= "dropDownNames">
 	                    <option value="None" selected="Selected">Select Name</option>
 	                </select>	
@@ -41,6 +46,7 @@
 				height="500"
 				width="350">
 			</iframe>  -->
+
 		</div>
 		
 		<script type="text/javascript">
@@ -52,7 +58,6 @@
 		    };
 		    var player = new Twitch.Player("video", options);
 		    player.setVolume(0.5);
-
 		    $(document).ready(function() {
 		    	$.getJSON("../json/extracted_streams.json", function(obj) {
             		$.each(obj.streams, function(key, value){
@@ -61,11 +66,11 @@
         		});
 
         		$('#dropDownNames').change(function () {
-            		selectedName = $(this).val();
+            		var selectedName = $(this).val();
             		link = "http://www.twitch.tv/"+selectedName+"/chat";
             		$("#chat").attr("src", link);
             		player.setChannel(selectedName);
-		    		
+       				messages.getCurrentChats(selectedName);
         		});
 		    });
 		</script> 
