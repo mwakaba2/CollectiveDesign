@@ -3,4 +3,4 @@
 
 On terminal
 
-Python -m SimpleHTTPServer to see the webpage
+python -m pico.server to see the webpage
