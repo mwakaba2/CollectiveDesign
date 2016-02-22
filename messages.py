@@ -34,4 +34,6 @@ def getCurrentChats(channel):
                         "name": username,
                         "message": msg,
                     })
-                print "%s inserted to database" % result
+
+                
+                print "%s inserted to database" % msg

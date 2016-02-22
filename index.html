@@ -15,6 +15,9 @@
 		<link rel="stylesheet" href="css/styles.css">
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+		<!-- Firebase -->
+		<script src='https://cdn.firebase.com/js/client/2.1.0/firebase.js'></script>
   	</head>
 	<body>
 		<script src= "http://player.twitch.tv/js/embed/v1.js"></script> 
@@ -35,25 +38,20 @@
 	                    <option value="None" selected="Selected">Select Name</option>
 	                </select>	
 			</div>
-			<div id="main-column">
+			<div id="main-column">	
 				<div id="video"></div>
 			</div>
-			<!-- <iframe 
-				frameborder="0"
-				scrolling="no"
-				id="chat"
-				src="http://www.twitch.tv/geekygoonsquad/chat"
-				height="500"
-				width="350">
-			</iframe>  -->
-
+			<ul id='long-tails'></ul>
 		</div>
 		
 		<script type="text/javascript">
+		    var firebaseLink = 'https://j0n89v2391.firebaseio.com/jazzzy_tap';
+		    var chats = new Firebase(firebaseLink);
+		    var selectedName;
 		    var options = {
 		        width: 800,
 		        height: 500,
-		        channel: "geekygoonsquad", 
+		        channel: "jazzy_tap", 
 		        //video: "{VIDEO_ID}"       
 		    };
 		    var player = new Twitch.Player("video", options);
@@ -66,12 +64,30 @@
         		});
 
         		$('#dropDownNames').change(function () {
-            		var selectedName = $(this).val();
+            		selectedName = $(this).val();
             		link = "http://www.twitch.tv/"+selectedName+"/chat";
             		$("#chat").attr("src", link);
             		player.setChannel(selectedName);
        				messages.getCurrentChats(selectedName);
         		});
+
+ 				var messageList = $('#long-tails');
+		     	// Add a callback that is triggered for each chat message.
+				chats.limitToLast(20).on('child_added', function (snapshot) {
+					//GET DATA
+					var data = snapshot.val();
+					var message = data.message;
+
+					//CREATE ELEMENTS MESSAGE & SANITIZE TEXT
+					var messageElement = $("<li>");
+					messageElement.text(message);
+
+					//ADD MESSAGE
+					messageList.append(messageElement)
+
+					//SCROLL TO BOTTOM OF MESSAGE LIST
+					messageList[0].scrollTop = messageList[0].scrollHeight;
+				});
 		    });
 		</script> 
 	</body>
