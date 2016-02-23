@@ -23,7 +23,7 @@
 		<script src= "http://player.twitch.tv/js/embed/v1.js"></script> 
 		<script type="text/javascript" src="/pico/client.js"></script>
     	<script type="text/javascript">
-    		var channel = "jazzzy_tap";
+    		var channel = "badnewsbaron";
         	pico.load("messages", function(module){
     			module.getCurrentChats(channel);
 			});
@@ -48,6 +48,45 @@
 		</div>
 		
 		<script type="text/javascript">
+			var clientId = "edcnnrpfb9j4xi3l5twrxj26g3qai4";
+			var emoticons = [];
+
+			// getting twitch and bttv emoticons
+			getEmoticons();
+			function getEmoticons() {
+
+				$.getJSON("https://api.twitch.tv/kraken/chat/emoticon_images").done(
+					function( data ) {
+						if ( "emoticons" in data ) {
+								for (var i in data.emoticons) {
+								emoticons[data.emoticons[i].code] = 'http://static-cdn.jtvnw.net/emoticons/v1/'+data.emoticons[i].id+'/1.0';
+							}
+						}
+						else {
+							setTimeout( function() { getEmoticons(); }, 5*1000 );
+						}
+					}
+				);
+
+			}
+
+			function writeEmoticons( message ) {
+				var output = "";
+				var text = message.split(" ");
+				// for each word, check if it's an emoticon and if it is, output the url instead of the text
+				for( var i = 0; i < text.length; i++ ) {
+					var word = text[i];
+					if ( emoticons[word] ) {
+						output += '<img src='+emoticons[word]+'>';
+					}
+					else {
+						output += ' '+word;
+					}
+				}
+
+				return output;
+			}
+
 		    var firebaseLink = 'https://j0n89v2391.firebaseio.com/'+ channel;
 		    var chats = new Firebase(firebaseLink);
 		    var selectedName;
@@ -59,6 +98,7 @@
 		    };
 		    var player = new Twitch.Player("video", options);
 		    player.setVolume(0.5);
+
 		    $(document).ready(function() {
 
 		    	$.getJSON("../json/extracted_streams.json", function(obj) {
@@ -76,17 +116,15 @@
         		
 				var messageList = $('#long-tails');
 				// Add a callback that is triggered for each chat message.
-				chats.limitToLast(20).on('child_added', function (snapshot) {
+				chats.limitToLast(100).on('child_added', function (snapshot) {
 					//GET DATA
 					var data = snapshot.val();
 					var message = data.message;
-
-					//CREATE ELEMENTS MESSAGE & SANITIZE TEXT
-					var messageElement = $("<li>");
-					messageElement.text(message);
+					
+					transformedMessage = "<li>" + writeEmoticons(message) + "</li>";
 
 					//ADD MESSAGE
-					messageList.append(messageElement)
+					messageList.append(transformedMessage)
 
 					//SCROLL TO BOTTOM OF MESSAGE LIST
 					messageList[0].scrollTop = messageList[0].scrollHeight;

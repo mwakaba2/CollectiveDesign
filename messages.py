@@ -25,8 +25,8 @@ def getCurrentChats(channel):
         else:
             for message in new_messages:
                 #Wuhu we got a message. Let's extract some details from it
-                msg = message['message'].lower()
-                username = message['username'].lower()
+                msg = message['message']
+                username = message['username']
                 
                 result = fb.post(
                     channel,
