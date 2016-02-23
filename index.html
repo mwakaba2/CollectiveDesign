@@ -23,7 +23,10 @@
 		<script src= "http://player.twitch.tv/js/embed/v1.js"></script> 
 		<script type="text/javascript" src="/pico/client.js"></script>
     	<script type="text/javascript">
-        	pico.load('messages');
+    		var channel = "jazzzy_tap";
+        	pico.load("messages", function(module){
+    			module.getCurrentChats(channel);
+			});
     	</script>
 		<div class="fluid-container">
 			<div id="twitchNavBar">
@@ -45,18 +48,19 @@
 		</div>
 		
 		<script type="text/javascript">
-		    var firebaseLink = 'https://j0n89v2391.firebaseio.com/jazzzy_tap';
+		    var firebaseLink = 'https://j0n89v2391.firebaseio.com/'+ channel;
 		    var chats = new Firebase(firebaseLink);
 		    var selectedName;
 		    var options = {
-		        width: 800,
+				width: 800,
 		        height: 500,
-		        channel: "jazzzy_tap", 
+		        channel: channel, 
 		        //video: "{VIDEO_ID}"       
 		    };
 		    var player = new Twitch.Player("video", options);
 		    player.setVolume(0.5);
 		    $(document).ready(function() {
+
 		    	$.getJSON("../json/extracted_streams.json", function(obj) {
             		$.each(obj.streams, function(key, value){
             			$("#dropDownNames").append($('<option></option>').val(value.name).html(value.displayName));	
@@ -68,11 +72,10 @@
             		link = "http://www.twitch.tv/"+selectedName+"/chat";
             		$("#chat").attr("src", link);
             		player.setChannel(selectedName);
-       				messages.getCurrentChats(selectedName);
         		});
-
- 				var messageList = $('#long-tails');
-		     	// Add a callback that is triggered for each chat message.
+        		
+				var messageList = $('#long-tails');
+				// Add a callback that is triggered for each chat message.
 				chats.limitToLast(20).on('child_added', function (snapshot) {
 					//GET DATA
 					var data = snapshot.val();
