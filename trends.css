@@ -1,0 +1,63 @@
+#twitchtrends {
+  width: 340px;
+  height: 100vh;
+}
+
+#topsection,
+#botsection  {
+  width: 340px;
+  background-color: #f2f2f2;
+}
+
+#topsection {
+  overflow: hidden;
+}
+
+#botsection {
+  overflow-y: scroll;
+}
+
+#divider {
+  background-color: #6441a5;
+  cursor: ns-resize;
+}
+
+#divider:hover {
+  background-color: #7550ba;
+}
+
+#trends {
+  margin: 0;
+  padding: 0;
+}
+
+.trend {
+  width: 50%;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  padding: 5px 1em;
+  list-style: none;
+}
+
+.trend:nth-child(2n + 0) {
+  background-color: #47474b;
+}
+
+.trend:nth-child(2n + 1) {
+  background-color: #19191f;
+}
+
+.message {
+  color: #3c3a41;
+  font-size: 12px;
+  padding: 1em;
+}
+
+.spacer {
+  width: calc(340px - 1em);
+  height: 1px;
+  background-color: #ddd;
+  margin: 0 auto;
+}
