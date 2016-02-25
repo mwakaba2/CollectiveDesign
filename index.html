@@ -159,18 +159,19 @@
 				var currentFilter = '';
 
 				$("#ranking li").live('click', function(){
-					if(currentFilter == $(this).text() || currentFilter == $(this).data("emoticon")) {
+					if(currentFilter == $(this).text() || currentFilter == $(this).find('img').data("emoticon")) {
 						$("#long-tails li").show();
 					} else {
-						if($(this).data("emoticon") != undefined) {
-							currentFilter = $(this).data("emoticon");
-						} else {
+						if ($(this).find('img').length) {
+        					currentFilter = $(this).find('img').data("emoticon");
+    					} else {
 							currentFilter = $(this).text();
 						}
+
 						var regExp = new RegExp(currentFilter);
 
 						$("#long-tails li").each( function() {
-							var sentence = $(this).text();
+							var sentence = $(this).html();
 							if(regExp.test(sentence)){
 								$(this).show();
 							} else {
