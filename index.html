@@ -80,7 +80,7 @@
 				for( var i = 0; i < text.length; i++ ) {
 					var word = text[i];
 					if ( emoticons[word] ) {
-						output += '<img src='+emoticons[word]+' data-emoticon='+word+'>';
+						output += '<span style="display: none;">'+word+'</span><img src='+emoticons[word]+' data-emoticon='+word+'>';
 					}
 					else {
 						if(i == 0) {
