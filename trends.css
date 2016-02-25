@@ -1,6 +1,70 @@
+/* Twitch Navigation Bar Styles */
+
+#twitchNavBar {
+  width: 240px;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #19191f;
+}
+
+#logo {
+	display: block;
+	width: 240px;
+	height: 82px;
+	padding: 25px 0px;
+	text-align: center;
+}
+
+#logo svg path {
+	fill: #fff;
+}
+
+h4 {
+	color: #fff;
+	text-align: center;
+}
+
+#dropDownNames {
+	display: block;
+	margin: 0 auto;
+	height: 40px;
+}
+
+
+/* Main Column Styles */
+
+#main-column {
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+	margin-left: 240px;
+	margin-right: 340px;
+	z-index: 2;
+	box-sizing: border-box;
+}
+
+
+/* Twitch Video Styles */
+
+#video {
+	display: block;
+	width: 840px;
+	margin: 0 auto;
+	padding: 100px 20px;
+	box-sizing: border-box;
+}
+
+
+/* Twitch Chatroom Styles */
+
 #twitchtrends {
   width: 340px;
   height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 #topsection,
@@ -26,7 +90,8 @@
   background-color: #7550ba;
 }
 
-#trends {
+#trends,
+#long-tails {
   margin: 0;
   padding: 0;
 }
@@ -53,6 +118,10 @@
   color: #3c3a41;
   font-size: 12px;
   padding: 1em;
+  list-style: none;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
 }
 
 .spacer {
