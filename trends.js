@@ -49,7 +49,7 @@ $.ui.plugin.add("resizable", "alsoResizeReverse", {
 });
 
 var trend_height = 36,
-    trend_count = 7,
+    trend_count = 10,
     divider_height = 6;
 
 $(function() {
@@ -59,6 +59,7 @@ $(function() {
     grid: trend_height,
     handles: {'s': $("#divider")},
     stop: function(event, ui) {
+      trend_count = ui.size.height / trend_height;
       console.log(ui.size.height / trend_height);
     }
   });
@@ -76,9 +77,12 @@ $("#topsection").css({
   height: trend_count * trend_height + "px"
 });
 
-$(".trend").css({
-  height: trend_height - 10 + "px",
-  lineHeight: trend_height - 10 + "px"
+$(function() {
+  $(".trend").css({
+    height: trend_height - 10 + "px",
+    lineHeight: trend_height - 10 + "px"
+  });
+  console.log($(".trend").css("lineHeight"));
 });
 
 $("#divider").css({
@@ -100,7 +104,7 @@ $(window).resize(function() {
   });
 });
 
-$(".spacer").insertBefore(".message");
+// $(".spacer").insertBefore(".message");
 
 
 // when a new message is received

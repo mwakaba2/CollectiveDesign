@@ -34,13 +34,18 @@ def doCount(stream_array):
 	# break
 	return word_dict
 
-def retrieveAndCount(channel, messageBatch):
-	print "No of result:", len(messageBatch)
+def retrieveAndCount(channel, messageBatch=None):
+	firebaseGet = firebase.FirebaseApplication('https://j0n89v2391.firebaseio.com/', None)
+	all_chat_result = firebaseGet.get('/'+channel+'/', None)
+
+	print "No of result:", len(all_chat_result)
+	# print all_chat_result
 	# read_lines = 100
-	for msg in messageBatch:
+	for chat_id in all_chat_result:
 		# if read_lines < 0:
 		# 	break
 		# read_lines-=1
+		msg = all_chat_result[chat_id]['message']
 		# print "msg here:", msg
 		stream_array.put(msg)
 		if stream_array.full():
@@ -48,9 +53,22 @@ def retrieveAndCount(channel, messageBatch):
 			word_dict = doCount(stream_array)
 			saveToDB(channel, word_dict)
 			# break
+	# print "No of result:", len(messageBatch)
+	# # read_lines = 100
+	# for msg in messageBatch:
+	# 	# if read_lines < 0:
+	# 	# 	break
+	# 	# read_lines-=1
+	# 	# print "msg here:", msg
+	# 	stream_array.put(msg)
+	# 	if stream_array.full():
+	# 		print "Queue is full!!!"
+	# 		word_dict = doCount(stream_array)
+	# 		saveToDB(channel, word_dict)
+			# break
 
 
-def saveToDB(channel, word_dict, topK = 20):
+def saveToDB(channel, word_dict, topK = 10):
 	firebasePost = firebase.FirebaseApplication('https://freq-word-cnt.firebaseio.com/', None)
 	firebasePost.delete(channel, None)
 	word_freq_list = sorted(word_dict, key = word_dict.get, reverse = True) 
@@ -77,4 +95,4 @@ def saveToDB(channel, word_dict, topK = 20):
 	# 	print elem, word_dict[elem]
 
 
-stream_array = Queue.Queue(500)
+stream_array = Queue.Queue(200)
