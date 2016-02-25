@@ -3,6 +3,11 @@ h4 {
 	color: #fff;
 }
 
+ul,
+ol {
+	padding: 0;
+	margin: 0;
+}
 /* Twitch Navigation Bar Styles */
 #twitchNavBar {
 	position: fixed;
@@ -51,9 +56,24 @@ h4 {
 
 /* Twitch Chatroom Styles */
 
+#ranking {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 40%;
+	max-width: 350px;
+	min-width: 250px;
+	list-style-type: none;
+	border-left: 2px solid #ccc;
+	overflow-y: scroll;
+}
+
+#ranking li {
+	padding: 10px;
+	border-top: 1px solid #ccc;
+}
+
 #long-tails {
-	padding: 0;
-	margin: 0;
 	position: fixed;
 	bottom: 0;
 	right: 0;
