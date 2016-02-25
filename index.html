@@ -23,7 +23,7 @@
 		<script src= "http://player.twitch.tv/js/embed/v1.js"></script> 
 		<script type="text/javascript" src="/pico/client.js"></script>
     	<script type="text/javascript">
-    		var channel = "tsm_theoddone";
+    		var channel = "teamsp00ky";
    //      	pico.load("messages", function(module){
    //  			module.getCurrentChats(channel);
 			// });
@@ -56,6 +56,7 @@
 
 			// getting twitch and bttv emoticons
 			getEmoticons();
+
 			function getEmoticons() {
 
 				$.getJSON("https://api.twitch.tv/kraken/chat/emoticon_images").done(
@@ -95,12 +96,14 @@
 				return output;
 			}
 
-		     var chatsLink = 'https://j0n89v2391.firebaseio.com/'+ channel + '_large';
-		     var wordsLink = 'https://freq-word-cnt.firebaseio.com/'+ channel + '_large';
-		     var chats = new Firebase(chatsLink);
-		     var rankedWords = new Firebase(wordsLink);
-		 //    var selectedName;
-		 //    var options = {
+			var chatsLink = 'https://j0n89v2391.firebaseio.com/'+ channel + '_large';
+			var wordsLink = 'https://freq-word-cnt.firebaseio.com/'+ channel + '_large';
+			var chats = new Firebase(chatsLink);
+			var rankedWords = new Firebase(wordsLink);
+			var numOfMessages = 200;
+			var messages = [];
+		 	//    var selectedName;
+		 	//    var options = {
 			// 	width: 800,
 			// 	height: 500,
 			// 	channel: channel, 
@@ -108,6 +111,12 @@
 			// };
 			// var player = new Twitch.Player("video", options);
 			// player.setVolume(0.5);
+
+			function calculateWordRanking() {
+				pico.load("query", function(module){
+    				module.retrieveAndCount(channel, messages);
+				});
+			}
 
 			$(document).ready(function() {
 				$.getJSON("../json/extracted_streams.json", function(obj) {
@@ -140,12 +149,12 @@
 				});
 				
 				// Add a callback that is triggered for each chat message.
-				chats.limitToLast(300).on('child_added', function (snapShot) {
+				chats.limitToLast(numOfMessages).on('child_added', function (snapShot) {
 					var messageList = $('#long-tails');
 					//GET DATA
 					var data = snapShot.val();
 					var message = data.message;
-					
+				
 					var transformedMessage = "<li>" + writeEmoticons(message) + "</li>";
 
 					//ADD message
@@ -153,9 +162,11 @@
 
 					//SCROLL TO BOTTOM OF MESSAGE LIST
 					messageList[0].scrollTop = messageList[0].scrollHeight;
+					messages.push(message);
 				});
 
-			
+				setTimeout(calculateWordRanking, 600);
+
 				var currentFilter = '';
 
 				$("#ranking li").live('click', function(){
@@ -179,12 +190,8 @@
 							}
 						});
 					}
-					
 				});
-
-
-
-			});
+			});		
 		</script> 
 	</body>
 </html>

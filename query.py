@@ -3,6 +3,7 @@
 import re
 from firebase import firebase
 import Queue
+import pico
 
 def doCount(stream_array):
 	word_dict = {}
@@ -33,24 +34,19 @@ def doCount(stream_array):
 	# break
 	return word_dict
 
-def retrieveAndCount():
-	firebaseGet = firebase.FirebaseApplication('https://j0n89v2391.firebaseio.com/', None)
-	all_chat_result = firebaseGet.get('/geekygoonsquad_large/', None)
-
-	print "No of result:", len(all_chat_result)
-	# print all_chat_result
+def retrieveAndCount(channel, messageBatch):
+	print "No of result:", len(messageBatch)
 	# read_lines = 100
-	for chat_id in all_chat_result:
+	for msg in messageBatch:
 		# if read_lines < 0:
 		# 	break
 		# read_lines-=1
-		msg = all_chat_result[chat_id]['message']
 		# print "msg here:", msg
 		stream_array.put(msg)
 		if stream_array.full():
 			print "Queue is full!!!"
 			word_dict = doCount(stream_array)
-			saveToDB("geekygoonsquad_large", word_dict)
+			saveToDB(channel, word_dict)
 			# break
 
 
@@ -71,8 +67,8 @@ def saveToDB(channel, word_dict, topK = 20):
         # print "%s inserted to database" % result
 		# print "%s inserted to database" % result
 
-def main():
-	word_dict = retrieveAndCount()
+# def main():
+	#word_dict = retrieveAndCount(messageBatch)
 	# saveToDB("geekygoonsquad_large", word_dict)
 	# print
 	# print "======Cnt======"
@@ -80,8 +76,5 @@ def main():
 	# for elem in word_freq_list:
 	# 	print elem, word_dict[elem]
 
+
 stream_array = Queue.Queue(500)
-main()
-
-
-
